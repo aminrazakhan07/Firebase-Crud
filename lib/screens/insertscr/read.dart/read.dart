@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_crud/screens/insertscr/insert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
@@ -31,6 +32,7 @@ class _ReadDatasState extends State<ReadDatas> {
         .update({
       'name': value,
     });
+    setState(() {});
   }
 
   ////////
@@ -79,7 +81,8 @@ class _ReadDatasState extends State<ReadDatas> {
                                     snapshot.data.docs[index].id,
                                     updateName,
                                   );
-                                  // Get.back();
+
+                                  Get.back();
                                 },
                                 child: Text('Update Name'),
                               )
@@ -122,7 +125,11 @@ class _ReadDatasState extends State<ReadDatas> {
                 });
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: SpinKitFoldingCube(
+                duration: Duration(seconds: 3),
+                color: Colors.black,
+                size: 50.0,
+              ),
             );
           }
         },
@@ -135,7 +142,10 @@ class _ReadDatasState extends State<ReadDatas> {
                 builder: (context) => InsertDatas(),
               ));
         },
-        child: Icon(Icons.arrow_back_ios_sharp),
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
       ),
     );
   }
