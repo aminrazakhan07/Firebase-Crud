@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crud/custom_widget/elevat_button.dart';
 import 'package:firebase_crud/custom_widget/textfield_func.dart';
 import 'package:firebase_crud/screens/welcome/loginscr.dart';
+import 'package:firebase_crud/wraperpage/verifyemail.dart';
 import 'package:firebase_crud/wraperpage/wraper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -26,12 +27,47 @@ class _SignupPageState extends State<SignupPage> {
         email: signupEmailController.text,
         password: signupPassCodeController.text,
       );
+      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+      setState(() {});
+
+      Get.snackbar(
+        'Sign Up Successfully',
+        'A link has been sent to your email',
+        snackPosition: SnackPosition.BOTTOM,
+        margin: EdgeInsets.all(30),
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+        animationDuration: Duration(seconds: 1),
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: Colors.white,
+        icon: Icon(Icons.check_circle, color: Colors.white),
+      );
+
+      Get.offAll(Loginscreen());
+
+      //
     } on FirebaseAuthException catch (e) {
       Get.snackbar('Error', e.code, snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
       print('Try again');
+
+      Get.snackbar('Error', e.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          margin: EdgeInsets.all(30),
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: Duration(seconds: 3),
+          animationDuration: Duration(seconds: 1),
+          borderRadius: 10,
+          borderWidth: 2,
+          borderColor: Colors.white,
+          icon: Icon(Icons.error, color: Colors.white));
+      setState(() {});
+      Get.offAll(Loginscreen());
     }
-    Get.offAll(Wraperscr());
+
     setState(() {
       signupEmailController.clear();
       signupPassCodeController.clear();

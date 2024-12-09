@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crud/screens/welcome/loginscr.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -15,7 +18,34 @@ class _HomescreenState extends State<Homescreen> {
   final user = FirebaseAuth.instance.currentUser;
 
   signOut() async {
-    await FirebaseAuth.instance.signOut();
+    try {
+      await FirebaseAuth.instance.signOut();
+      setState(() {});
+    } catch (e) {
+      setState(() {});
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        margin: EdgeInsets.all(30),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+        animationDuration: Duration(seconds: 1),
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: Colors.white,
+        icon: Icon(Icons.error, color: Colors.white),
+      );
+
+      setState(() {});
+    }
+    Get.offAll(
+      Loginscreen(),
+      transition: Transition.cupertino,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
